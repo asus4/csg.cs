@@ -13,45 +13,29 @@ public class MeshCSGOperation : MonoBehaviour
 
     public enum Operation { Subtract, Union, Intersection };
     public Operation operation;
-    public GameObject a;
-    public GameObject b;
+	public MeshFilter aMesh;
+	public MeshFilter bMesh;
     public GameObject newObjectPrefab;
-
+    
+    public bool isRealtime;
+    
+	MeshFilter targetMesh;
+	
     void Start()
     {
-
-        Transform[] children = new Transform[2];
-        if (a == null && b == null)
+    
+		if (bMesh == null || bMesh == null)
         {
-            int i = 0;
-            foreach (Transform t in transform)
-            {
-                if (i > 2) break;
-                children[i] = t;
-                i++;
+			MeshFilter[] children = GetComponentsInChildren<MeshFilter>();
+            if(children.Length >= 2) {
+				aMesh = children[0].GetComponent<MeshFilter>();
+				bMesh = children[1].GetComponent<MeshFilter>();
             }
         }
-        else
-        {
-            children[0] = a.transform;
-            children[1] = b.transform;
-        }
-        CSG A = CSG.fromMesh(children[0].GetComponent<MeshFilter>().mesh, children[0]);
-        CSG B = CSG.fromMesh(children[1].GetComponent<MeshFilter>().mesh, children[1]);
-
-        CSG result = null;
-        if (operation == Operation.Subtract)
-        {
-            result = A.subtract(B);
-        }
-        if (operation == Operation.Union)
-        {
-            result = A.union(B);
-        }
-        if (operation == Operation.Intersection)
-        {
-            result = A.intersect(B);
-        }
+        
+		GameObject newGo = Instantiate(newObjectPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+		targetMesh = newGo.GetComponent<MeshFilter>();
+		ComputeMesh(aMesh, bMesh, operation, targetMesh);
 
         /*
          * Debug.Log(A.polygons.Count + ", " + B.polygons.Count + ", " + result.polygons.Count);
@@ -60,10 +44,44 @@ public class MeshCSGOperation : MonoBehaviour
             if (p.vertices.Length > 3) Debug.Log("!!! " + p.vertices.Length);
         }
         */
-
-        GameObject newGo = Instantiate(newObjectPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-        if (result != null) newGo.GetComponent<MeshFilter>().mesh = result.toMesh();
-        children[0].gameObject.SetActive(false);
-        children[1].gameObject.SetActive(false);
+        
+		aMesh.gameObject.SetActive(false);
+		bMesh.gameObject.SetActive(false);
     }
+    
+    void Update()
+    {
+		if(isRealtime)
+		{
+			ComputeMesh(aMesh, bMesh, operation, targetMesh);
+		}
+    }
+    
+    CSG ComputeMesh(MeshFilter aMeshFilter, MeshFilter bMeshFilter, Operation op, MeshFilter target)
+    {
+		CSG a = CSG.fromMeshFilter(aMeshFilter);
+		CSG b = CSG.fromMeshFilter(bMeshFilter);
+		
+		CSG result = null;
+		if (op == Operation.Subtract)
+		{
+			result = a.subtract(b);
+		}
+		if (op == Operation.Union)
+		{
+			result = a.union(b);
+		}
+		if (op == Operation.Intersection)
+		{
+			result = a.intersect(b);
+		}
+		
+		if(result != null)
+		{
+			target.mesh = result.toMesh();
+		}
+		return result;
+    }
+    
+    
 }

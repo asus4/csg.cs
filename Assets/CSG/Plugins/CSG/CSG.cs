@@ -177,7 +177,7 @@ namespace ConstructiveSolidGeometry
 
             return m;
         }
-
+        
         public static CSG fromMesh(Mesh m, Transform tf)
         {
             List<Polygon> triangles = new List<Polygon>();
@@ -194,6 +194,11 @@ namespace ConstructiveSolidGeometry
             }
             Debug.Log("Poly " + triangles.Count);
             return CSG.fromPolygons(triangles);
+        }
+        
+        public static CSG fromMeshFilter(MeshFilter mf)
+        {
+			return fromMesh(mf.mesh, mf.transform);
         }
 
         private static Vertex TranslateVertex(Mesh m, Transform tf, int tri)
