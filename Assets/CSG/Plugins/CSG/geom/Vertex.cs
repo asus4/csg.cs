@@ -8,27 +8,30 @@ namespace ConstructiveSolidGeometry
     /// colors. Custom vertex classes need to implement the Vertex interface.
     /// 
     /// </summary>
-    public class Vertex
-    {
-        public Vector3 pos { get; set; }
+//    public struct Vertex
+	public class Vertex
+	{
+        public Vector3 pos;
         public Vector3 normal;
         // TODO: Memomry optimization - this could probably be a short rather than int, 
         //       accessed as a get/set int property that converts the -32,768 to 32,767 range to 0 to 65535
-        public int index = -1;
+        public int index;
 
         public Vertex(Vector3 pos)
         {
             this.pos = pos;
-            //this.normal = (this.normal != Vector3.zero) ? normal : Vector3.zero;
+            this.normal = Vector3.zero;
+            this.index = -1;
         }
 
         public Vertex(Vector3 pos, Vector3 normal)
         {
             this.pos = pos;
             this.normal = normal;
-        }
-
-        public Vertex clone()
+			this.index = -1;
+		}
+		
+		public Vertex clone()
         {
             return new Vertex(this.pos, this.normal);
         }

@@ -6,12 +6,14 @@ namespace ConstructiveSolidGeometry
     public class Plane
     {
         public static float EPSILON = 0.00001f;
-
-        public const int COPLANAR = 0;
-        public const int FRONT = 1;
-        public const int BACK = 2;
-        public const int SPANNING = 3;
-
+		
+		public enum Face {
+			COPLANAR,
+			FRONT,
+			BACK,
+			SPANNING
+		}
+		
         public Vector3 normal;
         public float w;
 
@@ -58,25 +60,27 @@ namespace ConstructiveSolidGeometry
             //Debug.Log("splitPolygon: " + polygon.vertices[0].pos + ", " + polygon.vertices[1].pos + ", " + polygon.vertices[2].pos);
 
             Vertex[] vertices = polygon.vertices;
-            int polygonType = 0;
-            List<int> types = new List<int>();
-            int type;
+			Face polygonType = 0;
+			List<Face> types = new List<Face>();
+			Face type;
             float t;
             int i;
 
             for (i = 0; i < vertices.Length; i++)
             {
                 t = Vector3.Dot(this.normal, vertices[i].pos) - this.w;
-                if (t < -Plane.EPSILON) { type = BACK; } else if (t > Plane.EPSILON) { type = FRONT; } else { type = COPLANAR; }
-                polygonType |= type;
+				if (t < -Plane.EPSILON) { type = Face.BACK; }
+				else if (t > EPSILON) { type = Face.FRONT; }
+				else { type = Face.COPLANAR; }
+				polygonType |= type;
                 types.Add(type);
             }
 
             // Put the polygon in the correct list, splitting it when necessary.
             switch (polygonType)
             {
-                case COPLANAR:
-                    if (Vector3.Dot(this.normal, polygon.plane.normal) > 0)
+				case Face.COPLANAR:
+					if (Vector3.Dot(this.normal, polygon.plane.normal) > 0)
                     {
                         coplanarFront.Add(polygon);
                     }
@@ -85,15 +89,15 @@ namespace ConstructiveSolidGeometry
                         coplanarBack.Add(polygon);
                     }
                     break;
-                case FRONT:
+                case Face.FRONT:
                     front.Add(polygon);
                     break;
-                case BACK:
+                case Face.BACK:
                     back.Add(polygon);
                     break;
                 default:
-                case SPANNING:
-                    if (polygonType != SPANNING)
+                case Face.SPANNING:
+                    if (polygonType != Face.SPANNING)
                         Debug.Log("Defaulting to spanning");
 
                     List<Vertex> f = new List<Vertex>();
@@ -101,13 +105,13 @@ namespace ConstructiveSolidGeometry
                     for (i = 0; i < vertices.Length; i++)
                     {
                         int j = (i + 1) % vertices.Length;
-                        int ti = types[i];
-                        int tj = types[j];
+                        Face ti = types[i];
+                        Face tj = types[j];
                         Vertex vi = vertices[i];
                         Vertex vj = vertices[j];
-                        if (ti != BACK) f.Add(vi);
-                        if (ti != FRONT) b.Add(ti != BACK ? vi.clone() : vi);
-                        if ((ti | tj) == SPANNING)
+                        if (ti != Face.BACK) f.Add(vi);
+                        if (ti != Face.FRONT) b.Add(ti != Face.BACK ? vi.clone() : vi);
+                        if ((ti | tj) == Face.SPANNING)
                         {
                             t = (this.w - Vector3.Dot(this.normal, vi.pos)) /
                                  Vector3.Dot(this.normal, vj.pos - vi.pos);

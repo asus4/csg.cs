@@ -187,8 +187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   operation: 0
-  aMesh: {fileID: 0}
-  bMesh: {fileID: 0}
+  aMesh: {fileID: 1599448668}
+  bMesh: {fileID: 1221945774}
   newObjectPrefab: {fileID: 100000, guid: caab4fad538204057bf5d8a26c28416e, type: 2}
   isRealtime: 0
 --- !u!4 &207376852
@@ -636,8 +636,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   operation: 0
-  aMesh: {fileID: 0}
-  bMesh: {fileID: 0}
+  aMesh: {fileID: 1057089661}
+  bMesh: {fileID: 1864876543}
   newObjectPrefab: {fileID: 100000, guid: caab4fad538204057bf5d8a26c28416e, type: 2}
   isRealtime: 1
 --- !u!4 &2146598582
