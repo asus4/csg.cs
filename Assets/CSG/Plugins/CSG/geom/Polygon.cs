@@ -13,32 +13,32 @@ namespace ConstructiveSolidGeometry
     /// </summary>
     public class Polygon
     {
-        public IVertex[] vertices;
+        public Vertex[] vertices;
         public System.Object shared; // TODO: maybe this should be a Dictionary ??
         public Plane plane;
 
 
-        public Polygon(IVertex[] vertices)
+        public Polygon(Vertex[] vertices)
         {
-            this.vertices = vertices;
+			this.vertices = vertices;
             this.plane = Plane.fromPoints(vertices[0].pos, vertices[1].pos, vertices[2].pos);
         }
 
-        public Polygon(IVertex[] vertices, System.Object shared)
+        public Polygon(Vertex[] vertices, System.Object shared)
         {
             this.vertices = vertices;
             this.shared = shared;
             this.plane = Plane.fromPoints(vertices[0].pos, vertices[1].pos, vertices[2].pos);
         }
 
-        public Polygon(List<IVertex> vertices)
+        public Polygon(List<Vertex> vertices)
         {
             this.vertices = vertices.ToArray();
             this.plane = Plane.fromPoints(vertices[0].pos, vertices[1].pos, vertices[2].pos);
         }
 
 
-        public Polygon(List<IVertex> vertices, System.Object shared)
+        public Polygon(List<Vertex> vertices, System.Object shared)
         {
             this.vertices = vertices.ToArray();
             this.shared = shared;
@@ -47,8 +47,8 @@ namespace ConstructiveSolidGeometry
 
         public Polygon clone()
         {
-            List<IVertex> vs = new List<IVertex>();
-            foreach (IVertex v in this.vertices)
+            List<Vertex> vs = new List<Vertex>();
+            foreach (Vertex v in this.vertices)
             {
                 vs.Add(v.clone());
             }
@@ -58,7 +58,7 @@ namespace ConstructiveSolidGeometry
         public void flip()
         {
             Array.Reverse(this.vertices, 0, this.vertices.Length);
-            foreach (IVertex v in this.vertices)
+            foreach (Vertex v in this.vertices)
             {
                 v.flip();
             }

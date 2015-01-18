@@ -57,7 +57,7 @@ namespace ConstructiveSolidGeometry
         {
             //Debug.Log("splitPolygon: " + polygon.vertices[0].pos + ", " + polygon.vertices[1].pos + ", " + polygon.vertices[2].pos);
 
-            IVertex[] vertices = polygon.vertices;
+            Vertex[] vertices = polygon.vertices;
             int polygonType = 0;
             List<int> types = new List<int>();
             int type;
@@ -96,22 +96,22 @@ namespace ConstructiveSolidGeometry
                     if (polygonType != SPANNING)
                         Debug.Log("Defaulting to spanning");
 
-                    List<IVertex> f = new List<IVertex>();
-                    List<IVertex> b = new List<IVertex>();
+                    List<Vertex> f = new List<Vertex>();
+                    List<Vertex> b = new List<Vertex>();
                     for (i = 0; i < vertices.Length; i++)
                     {
                         int j = (i + 1) % vertices.Length;
                         int ti = types[i];
                         int tj = types[j];
-                        IVertex vi = vertices[i];
-                        IVertex vj = vertices[j];
+                        Vertex vi = vertices[i];
+                        Vertex vj = vertices[j];
                         if (ti != BACK) f.Add(vi);
                         if (ti != FRONT) b.Add(ti != BACK ? vi.clone() : vi);
                         if ((ti | tj) == SPANNING)
                         {
                             t = (this.w - Vector3.Dot(this.normal, vi.pos)) /
                                  Vector3.Dot(this.normal, vj.pos - vi.pos);
-                            IVertex v = vi.Leap(vj, t);
+                            Vertex v = vi.Leap(vj, t);
                             f.Add(v);
                             b.Add(v.clone());
                         }

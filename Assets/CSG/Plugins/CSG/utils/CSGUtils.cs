@@ -18,7 +18,7 @@ namespace ConstructiveSolidGeometry
                 return null;
             }
 
-            List<IVertex> vertices = new List<IVertex>();
+            List<Vertex> vertices = new List<Vertex>();
             foreach (Vector3 pos in points)
             {
                 vertices.Add(new Vertex(pos));
@@ -40,9 +40,9 @@ namespace ConstructiveSolidGeometry
             normal = normal != null ? normal : polygon.plane.normal;
 
             Vector3 du = normal.GetValueOrDefault();
-            IVertex[] vertices = polygon.vertices;
-            List<IVertex> top = new List<IVertex>();
-            List<IVertex> bot = new List<IVertex>();
+            Vertex[] vertices = polygon.vertices;
+            List<Vertex> top = new List<Vertex>();
+            List<Vertex> bot = new List<Vertex>();
             List<Polygon> polygons = new List<Polygon>();
             Vector3 invNormal = normal.GetValueOrDefault();
 
@@ -61,7 +61,7 @@ namespace ConstructiveSolidGeometry
                 Vertex v2 = new Vertex(p2, plane.normal);
                 Vertex v3 = new Vertex(p3, plane.normal);
                 Vertex v4 = new Vertex(p4, plane.normal);
-                Polygon poly = new Polygon(new List<IVertex>(new IVertex[] { v1, v2, v3, v4 }), polygon.shared);
+                Polygon poly = new Polygon(new List<Vertex>(new Vertex[] { v1, v2, v3, v4 }), polygon.shared);
                 polygons.Add(poly);
                 top.Add(new Vertex(p4, normal.GetValueOrDefault()));
                 bot.Insert(0, new Vertex(p1, invNormal));

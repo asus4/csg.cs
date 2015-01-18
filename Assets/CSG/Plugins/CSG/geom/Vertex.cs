@@ -5,10 +5,10 @@ namespace ConstructiveSolidGeometry
     /// <summary>
     /// Represents a vertex of a polygon. Use your own vertex class instead of this
     /// one to provide additional features like texture coordinates and vertex
-    /// colors. Custom vertex classes need to implement the IVertex interface.
+    /// colors. Custom vertex classes need to implement the Vertex interface.
     /// 
     /// </summary>
-    public class Vertex : IVertex
+    public class Vertex
     {
         public Vector3 pos { get; set; }
         public Vector3 normal;
@@ -28,7 +28,7 @@ namespace ConstructiveSolidGeometry
             this.normal = normal;
         }
 
-        public IVertex clone()
+        public Vertex clone()
         {
             return new Vertex(this.pos, this.normal);
         }
@@ -38,11 +38,11 @@ namespace ConstructiveSolidGeometry
             this.normal *= -1f;
         }
 
-        public IVertex Leap(IVertex other, float t)
+        public Vertex Leap(Vertex other, float t)
         {
             return new Vertex(
                 Vector3.Lerp(this.pos, other.pos, t),
-				Vector3.Lerp(this.normal, (other as Vertex).normal, t)
+				Vector3.Lerp(this.normal, other.normal, t)
             );
 
         }

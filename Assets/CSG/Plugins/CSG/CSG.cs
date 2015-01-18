@@ -107,10 +107,10 @@ namespace ConstructiveSolidGeometry
                     //Debug.Log("!!! Poly to Tri (order): " + this.polygons[i].vertices.Length);
                     for (int vi = 1; vi < this.polygons[i].vertices.Length - 1; vi++)
                     {
-                        IVertex[] tri = new IVertex[] {
+                        Vertex[] tri = new Vertex[] {
                             this.polygons[i].vertices[0], 
-                            this.polygons[i].vertices[vi], 
-                            this.polygons[i].vertices[vi+1]
+							this.polygons[i].vertices[vi], 
+							this.polygons[i].vertices[vi+1]
                         };
                         trisFromPolygons.Add(new Polygon(tri));
                     }
@@ -137,7 +137,7 @@ namespace ConstructiveSolidGeometry
 
                 for (int vi = 0; vi < 3; vi++)
                 {
-                    Vertex vertex = tri.vertices[vi] as Vertex;
+                    Vertex vertex = tri.vertices[vi];
                     bool equivalentVertexAlreadyInList = false;
                     for (int i = 0; i < vertices.Count; i++)
                     {
@@ -330,7 +330,7 @@ namespace ConstructiveSolidGeometry
                 int[][] v = data[x];
                 Vector3 normal = new Vector3((float)v[1][0], (float)v[1][1], (float)v[1][2]);
 
-                IVertex[] verts = new IVertex[4];
+                Vertex[] verts = new Vertex[4];
                 for (int i = 0; i < 4; i++)
                 {
                     verts[i] = new Vertex(
@@ -346,7 +346,7 @@ namespace ConstructiveSolidGeometry
             return CSG.fromPolygons(polygons);
         }
 
-        private static void makeSphereVertex(ref List<IVertex> vxs, Vector3 center, float r, float theta, float phi)
+        private static void makeSphereVertex(ref List<Vertex> vxs, Vector3 center, float r, float theta, float phi)
         {
             theta *= Mathf.PI * 2;
             phi *= Mathf.PI;
@@ -363,13 +363,13 @@ namespace ConstructiveSolidGeometry
         {
             float r = radius;
             List<Polygon> polygons = new List<Polygon>();
-            List<IVertex> vertices;
+            List<Vertex> vertices;
 
             for (int i = 0; i < slices; i++)
             {
                 for (int j = 0; j < stacks; j++)
                 {
-                    vertices = new List<IVertex>();
+                    vertices = new List<Vertex>();
                     makeSphereVertex(ref vertices, center, r, i / slices, j / stacks);
                     if (j > 0) makeSphereVertex(ref vertices, center, r, (i + 1) / slices, j / stacks);
                     if (j < stacks - 1) makeSphereVertex(ref vertices, center, r, (i + 1) / slices, (j + 1) / stacks);
