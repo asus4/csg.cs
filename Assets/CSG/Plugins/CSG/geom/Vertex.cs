@@ -18,16 +18,13 @@ namespace ConstructiveSolidGeometry
 
         public Vertex(Vector3 pos)
         {
-            //this.pos = (pos != Vector3.zero) ? pos : Vector3.zero;
             this.pos = pos;
             //this.normal = (this.normal != Vector3.zero) ? normal : Vector3.zero;
         }
 
         public Vertex(Vector3 pos, Vector3 normal)
         {
-            //this.pos = (pos != Vector3.zero) ? pos : Vector3.zero;
             this.pos = pos;
-            //this.normal = (normal != Vector3.zero) ? normal : Vector3.zero;
             this.normal = normal;
         }
 
@@ -41,20 +38,13 @@ namespace ConstructiveSolidGeometry
             this.normal *= -1f;
         }
 
-        public IVertex interpolate(IVertex other, float t)
+        public IVertex Leap(IVertex other, float t)
         {
             return new Vertex(
-                lerp(this.pos, other.pos, t),
-                lerp(this.normal, (other as Vertex).normal, t)
+                Vector3.Lerp(this.pos, other.pos, t),
+				Vector3.Lerp(this.normal, (other as Vertex).normal, t)
             );
 
-        }
-
-        protected Vector3 lerp(Vector3 a, Vector3 b, float t)
-        {
-            Vector3 ab = b - a;
-            ab *= t;
-            return a + ab;
         }
     }
 }

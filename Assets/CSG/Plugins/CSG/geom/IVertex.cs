@@ -8,7 +8,7 @@ namespace ConstructiveSolidGeometry
         Vector3 pos { get; set; }
         IVertex clone();
         void flip();
-        IVertex interpolate(IVertex other, float t);
+        IVertex Leap(IVertex other, float t);
     }
 
 }

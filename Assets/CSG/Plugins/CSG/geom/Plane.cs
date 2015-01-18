@@ -111,7 +111,7 @@ namespace ConstructiveSolidGeometry
                         {
                             t = (this.w - Vector3.Dot(this.normal, vi.pos)) /
                                  Vector3.Dot(this.normal, vj.pos - vi.pos);
-                            IVertex v = vi.interpolate(vj, t);
+                            IVertex v = vi.Leap(vj, t);
                             f.Add(v);
                             b.Add(v.clone());
                         }
